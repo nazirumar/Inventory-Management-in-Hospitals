@@ -73,3 +73,18 @@ An effective **Inventory Management System** for hospitals involves several esse
 
 ## Benefits of an Inventory Management System in Hospitals
 Implementing a hospital inventory management system can minimize waste, prevent stockouts, reduce costs, and enhance the overall quality of patient care by ensuring that medical staff always have the supplies and equipment they need.
+
+
+## Dependencies
+- django 
+- django-extensions
+- djangorestframework
+- celery 
+- redis
+- django-cors-headers
+- django-filter
+- pillow
+- django-mptt
+- django-environ
+- psycopg2-binary
+- django-redis

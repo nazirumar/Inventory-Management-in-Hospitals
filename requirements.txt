@@ -1,0 +1,12 @@
+django 
+django-extensions
+djangorestframework
+celery 
+redis
+django-cors-headers
+django-filter
+pillow
+django-mptt
+django-environ
+psycopg2-binary
+django-redis
