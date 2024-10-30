@@ -10,3 +10,4 @@ django-mptt
 django-environ
 psycopg2-binary
 django-redis
+djoser
