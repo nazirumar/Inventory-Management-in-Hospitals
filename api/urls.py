@@ -8,9 +8,9 @@ from .views import (
     category_list_view,
     inventory_list_view,
     inventory_item_by_category,
+    inventory_update_view,
     order_item_list_view,
     order_item_detail_view,
-    order_item_update_view,
     order_create,
     order_list,
     order_detail,
@@ -23,8 +23,9 @@ urlpatterns = [
     path("<int:pk>/", supplier_detail_view, name="supplier-detail"),  # For retrieving, updating, and deleting a supplier
     path("category-list", category_list_view, name="category-list"),  # For retrieving, updating, and deleting a supplier
     
-    path("inventory-list", inventory_list_view, name="inventory-list"),  # For retrieving, updating, and deleting a supplier
+    path("inventory-list/", inventory_list_view, name="inventory-list"),  # For retrieving, updating, and deleting a supplier
     path("inventory/category/<int:category_id>/", inventory_item_by_category, name="inventory-by-category",),
+    path('inventory-update/<int:pk>/', inventory_update_view, name='inventory-update'),
     
     path('order-items/', order_item_list_view, name='orderitem-list'),
     path('order-items/<int:pk>/', order_item_detail_view, name='orderitem-detail'),

@@ -57,6 +57,20 @@ class InventoryItemListCreateView(generics.ListCreateAPIView):
 inventory_list_view = InventoryItemListCreateView.as_view()
 
 
+class InventoryItemUpdateCreateView(generics.RetrieveUpdateAPIView):
+    queryset = InventoryItem.objects.all()
+    serializer_class = InventoryItemSerializer
+    permission_classes = [AllowAny]  # Allow unauthenticated access
+
+    def perform_update(self, serializer):
+        """Update the inventory quantity."""
+        serializer.save()
+        
+
+inventory_update_view = InventoryItemUpdateCreateView.as_view()
+
+
+
 class InventoryItemByCategoryView(generics.ListAPIView):
     serializer_class = InventoryItemSerializer
     permission_classes = [IsAuthenticated]  # Optional

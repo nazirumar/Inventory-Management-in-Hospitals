@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-+4dsp0vy0bu9i6=9@+rd9@=qi$fj^&t4aud0_9f7+ek1um7)16
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",
+]
 
 # Application definition
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',  # Add Django REST Framework
     'djoser',
     'rest_framework.authtoken',
+    "corsheaders",
 
     'api',
     
@@ -52,6 +55,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
