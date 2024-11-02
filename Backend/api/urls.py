@@ -15,14 +15,20 @@ from .views import (
     order_list,
     order_detail,
     inventory_transaction_view,
-    inventory_transaction_detail
+    inventory_transaction_detail,
+    supplier_list_view,
+    location_list_view
 )
 
 urlpatterns = [
     path("supplier-list", supplier_list_view, name="supplier-list-create"),  # For listing and creating suppliers
     path("<int:pk>/", supplier_detail_view, name="supplier-detail"),  # For retrieving, updating, and deleting a supplier
-    path("category-list", category_list_view, name="category-list"),  # For retrieving, updating, and deleting a supplier
+    path("categories/", category_list_view, name="category-list"),  # For retrieving, updating, and deleting a supplier
     
+    path("suppliers/", supplier_list_view, name="supplie-list"),  # For retrieving, updating, and deleting a supplier
+    path("locations/", location_list_view, name="location-list"),  # For retrieving, updating, and deleting a supplier
+    
+
     path("inventory-list/", inventory_list_view, name="inventory-list"),  # For retrieving, updating, and deleting a supplier
     path("inventory/category/<int:category_id>/", inventory_item_by_category, name="inventory-by-category",),
     path('inventory-update/<int:pk>/', inventory_update_view, name='inventory-update'),

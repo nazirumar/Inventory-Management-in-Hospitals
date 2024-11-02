@@ -1,13 +1,11 @@
 django 
-django-extensions
 djangorestframework
 celery 
 redis
 django-cors-headers
 django-filter
 pillow
-django-mptt
 django-environ
-psycopg2-binary
+# psycopg2
 django-redis
 djoser

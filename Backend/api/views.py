@@ -1,8 +1,8 @@
 from rest_framework import generics
 
 from utils.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
-from .models import Category, InventoryItem, InventoryTransaction, Order, OrderItem, Supplier
-from .serializers import CatergorySerializer, InventoryItemSerializer, InventoryTransactionSerializer, OrderItemSerializer, OrderItemSerializer, OrderSerializer, SupplierSerializer
+from .models import Category, InventoryItem, InventoryLocation, InventoryTransaction, Order, OrderItem, Supplier
+from .serializers import CatergorySerializer, InventoryItemSerializer, InventoryTransactionSerializer, LocationSerializer, OrderItemSerializer, OrderItemSerializer, OrderSerializer, SupplierSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny  # Import this to allow unauthenticated access
 from django.db import transaction
@@ -49,6 +49,20 @@ category_list_view = CategoryView.as_view()
 
 
 
+class SupplierView(generics.ListCreateAPIView):
+    queryset = Supplier.objects.all()
+    serializer_class = CatergorySerializer
+    permission_classes = [AllowAny]  # Allow unauthenticated access
+
+supplier_list_view = SupplierView.as_view()
+
+
+class InventoryLocationView(generics.ListCreateAPIView):
+    queryset = InventoryLocation.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = [AllowAny]  # Allow unauthenticated access
+
+location_list_view = InventoryLocationView.as_view()
 class InventoryItemListCreateView(generics.ListCreateAPIView):
     queryset = InventoryItem.objects.all()
     serializer_class = InventoryItemSerializer
