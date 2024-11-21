@@ -1,80 +1,94 @@
-# inventory/admin.py
+# Product/admin.py
 
 from datetime import datetime
 from django.contrib import admin
-from .models import Category, InventoryItem, InventoryTransaction,InventoryLocation,ExpiryTracking, Order
+from .models import Category, Customer, OrderItem, Product, Cart, CartItem, ProductStockAdjustment ,ProductLocation,ExpiryTracking, Order, Supplier
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('id', 'name',)
     search_fields = ('name',)
 
-class InventoryItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'supplier', 'quantity', 'reorder_level', 'location')
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'category', 'supplier', 'price_per_unit', 'quantity', 'reorder_level', 'location')
     search_fields = ('name', 'supplier__name', 'category__name')
     list_filter = ('category', 'supplier', 'location')
     ordering = ('name',)
 
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(InventoryItem, InventoryItemAdmin)
+admin.site.register(Product, ProductAdmin)
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ['user', 'name','phone']
+
 
 # suppliers/admin.py
 
-from django.contrib import admin
-from .models import Supplier
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_related_objects', 'customer',)
+    search_fields = ('customer',)
+    list_filter = ('customer',)
+
+    def get_related_objects(self, obj):
+        return ', '.join([item.name for item in obj.products.all()])
+
+    get_related_objects.short_description = "Items"
+
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'cart', 'product', 'quantity')
+    search_fields = ('cart__customer', 'product__name')
+    list_filter = ('cart__customer', 'product__name')
 
 class SupplierAdmin(admin.ModelAdmin):
-    list_display = ('name', 'contact_email', 'contact_phone', 'is_active')
+    list_display = ('id','name', 'contact_email', 'contact_phone', 'is_active')
     search_fields = ('name', 'contact_email', 'is_active')
     list_filter = ('name',)
 
 admin.site.register(Supplier, SupplierAdmin)
 
-# orders/admin.py
-
-from django.contrib import admin
-from .models import OrderItem
-
+@admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('id','supplier', 'inventory_item', 'quantity', 'order_date', 'received_date')
-    search_fields = ('supplier__name', 'item__name')
-    list_filter = ('supplier', 'received_date', 'order_date')
+    list_display = ['user',
+                    'product__name',
+                    'order',
+                    'quantity',
+                    'total_price',
+                    'created_at',
+                    'updated_at']
+    search_fields = ('product__name',)
+    list_filter = ('product__name', 'created_at',)
+    ordering = ('-created_at',)
+
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id',
+                'customer',
+                'order_date',
+                'complete',
+                'received_date',
+                'status',
+                'created_at',)
+    search_fields = ['customer', 'complete']
+    list_filter = ('created_at',)
     ordering = ('-order_date',)
 
-admin.site.register(OrderItem, OrderItemAdmin)
 
-
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user',
-                'get_related_objects',
-                'product_record',
-                'ordered',
-                'ordered_date',
-                'created_at',
-                'updated_at')
-    search_fields = ['get_related_objects']
-    list_filter = ('ordered_date',)
-    ordering = ('-ordered_date',)
-
-    def get_related_objects(self, obj):
-        return ', '.join([item.inventory_item.name for item in obj.items.all()])
-
-    get_related_objects.short_description = "Items"
-
-
-admin.site.register(Order, OrderAdmin)
-
-
-
-
-class InventoryLocationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address')
+class ProductLocationAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'address')
     search_fields = ('name', 'address')
 
-admin.site.register(InventoryLocation, InventoryLocationAdmin)
+admin.site.register(ProductLocation, ProductLocationAdmin)
 
 
 class ExpiryTrackingAdmin(admin.ModelAdmin):
-    list_display = ('item', 'expiration_date')
+    list_display = ('id','item', 'expiration_date')
     search_fields = ('item__name', 'expiration_date',)
     list_filter = ('expiration_date',)
 
@@ -82,11 +96,9 @@ class ExpiryTrackingAdmin(admin.ModelAdmin):
 
 admin.site.register(ExpiryTracking, ExpiryTrackingAdmin)
 
-
-class InventoryTransactionAdmin(admin.ModelAdmin):
-    list_display = ('transaction_type', 'item', 'quantity', 'transaction_date')
+@admin.register(ProductStockAdjustment)
+class ProductStockAdjustmentAdmin(admin.ModelAdmin):
+    list_display = ('transaction_type', 'item', 'quantity','location', 'transaction_date')
     search_fields = ('item__name', 'transaction_type', 'transaction_date')
     list_filter = ('transaction_type', 'transaction_date')
     ordering = ('-transaction_date',)
-
-admin.site.register(InventoryTransaction, InventoryTransactionAdmin)

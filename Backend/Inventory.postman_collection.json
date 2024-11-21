@@ -1,0 +1,1107 @@
+{
+	"info": {
+		"_postman_id": "3d8ce6c0-246f-4d9d-a916-e3078d5afd36",
+		"name": "Inventory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19465048"
+	},
+	"item": [
+		{
+			"name": "Auths",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"hauwa\",\n    \"email\": \"hauwa@gmail.com\",\n    \"password\": \"hauwa\",\n    \"role\": 5\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/users/signup",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"admin\",\n\"email\": \"admin@gmail.com\",\n\"password\": \"admin\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/users/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "Get Supplies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/suppliers/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"suppliers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Suppliers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"name\": \"kali Pharmacy\",\n        \"contact_email\": \"kali@gmail.com\",\n        \"contact_phone\": \"00320323223\",\n        \"address\": \"kaduna road, abuja\",\n        \"is_active\": false\n    }\n\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/suppliers/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"suppliers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Supplie",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/suppliers/2",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"suppliers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Suppliers",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"name\": \"Updated Value With Id 6\",\r\n        \"contact_email\": \"jabir@gmail.com\",\r\n        \"contact_phone\": \"00320323223\",\r\n        \"address\": \"kaduna road, sokoto\",\r\n        \"is_active\": true\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/suppliers/6/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"suppliers",
+								"6",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/categories/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"name\": \"Phones\",\n        \"description\": \"This is the Phones\"\n\n    }\n\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/categories/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete categories",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/categories/2/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"2",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Categories",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"name\": \"new Data ibrahim updated\",\r\n        \"description\": \"Hello my Name is nazbeen 001\"\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/categories/6/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"6",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventories/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"name\": \"Vitamin C\",\n       \"category\": 3,\n        \"supplier\": 3,\n        \"quantity\":2000,\n        \"reorder_level\":3,\n        \"price_per_unit\":200.0,\n        \"location\": 1\n\n    }\n\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventories/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventory/4/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"4",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"name\": \"Vitamin C Udated Value\",\r\n        \"supplier\": 3,\r\n        \"quantity\": 2000,\r\n        \"reorder_level\": 3,\r\n        \"price_per_unit\": \"200.00\",\r\n        \"location\": 1,\r\n        \"category\": 3\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventory/5/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"5",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "Get Carts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/carts",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"customer\": 2\n     \n\n    }\n\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/carts/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventory/4/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"4",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"name\": \"Vitamin C Udated Value\",\r\n        \"supplier\": 3,\r\n        \"quantity\": 2000,\r\n        \"reorder_level\": 3,\r\n        \"price_per_unit\": \"200.00\",\r\n        \"location\": 1,\r\n        \"category\": 3\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventory/5/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"5",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts Items",
+			"item": [
+				{
+					"name": "Get Carts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/cart-items",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customer\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/checkout",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Add CartItems",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cart\": 12,\n    \"product\": 5,\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/cart-items/add/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart-items",
+								"add",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventory/4/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"4",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"name\": \"Vitamin C Udated Value\",\r\n        \"supplier\": 3,\r\n        \"quantity\": 2000,\r\n        \"reorder_level\": 3,\r\n        \"price_per_unit\": \"200.00\",\r\n        \"location\": 1,\r\n        \"category\": 3\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/inventory/5/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"5",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OrderItems",
+			"item": [
+				{
+					"name": "Get OrderItems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/orderitems/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orderitems",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add OrderItems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var current_timestamp = new Date();\r",
+									"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleDateString());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"name\": \"Vitamin D\",\n        \"supplier\": 5,\n       \"inventory_item\": 5,\n        \"quantity\":20,\n        // \"received_date\":\"{{current_timestamp}}\",\n        \"status\": \"received\"\n\n    }\n\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/orderitems/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orderitems",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update OrderItems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var moment = require('moment');\r",
+									"\r",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"id\": 15,\r\n        \"user\": 1,\r\n        \"product\": 6,\r\n        \"order\": 9,\r\n        \"quantity\": 10,\r\n        \"total_price\": \"6000.00\",\r\n        \"updated_at\": \"{{currentdate}}\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/orderitems/15/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orderitems",
+								"15",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete OrderItems",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/orderitems/2/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orderitems",
+								"2",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/orders/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"items\": [\n            {\n                \"id\": 5,\n                \"supplier\": 3,\n                \"inventory_item\": 5,\n                \"quantity\": 20,\n                \"order_date\": \"2024-11-19T22:36:52.802279Z\",\n                \"received_date\": null,\n                \"status\": \"received\"\n            }\n        ],\n        \"product_record\": \"new items\",\n        \"ordered\": false,\n        \"ordered_date\": \"2024-11-19T22:52:18Z\",\n        \"created_at\": \"2024-11-19T22:52:19.819510Z\",\n        \"updated_at\": \"2024-11-19T22:52:19.819541Z\"\n    }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/orders/create",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');  // Postman has moment.js by default\r",
+									"const isoDateTime = moment().toISOString();  // This will generate a datetime in ISO 8601 format\r",
+									"\r",
+									"// Set the value as an environment or global variable\r",
+									"pm.environment.set(\"received_date\", isoDateTime);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 9,\r\n        \"customer\": 1,\r\n        \"status\": \"pending\",\r\n        \"order_date\": \"2024-11-21T08:22:48.184765Z\",\r\n        \"complete\": false,\r\n        \"received_date\": \"{{received_date}}\",\r\n        \"created_at\": \"2024-11-21T08:22:48.185353Z\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/orders/9/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"9",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/orders/3/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"3",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "InventoryTransaction",
+			"item": [
+				{
+					"name": "Get Product Stocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/product/stock",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Product Stocks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n        \"item\": 7,\n        \"transaction_type\": \"add\",\n        \"quantity\": 2,\n        \"location\": 1\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/product/stock/create",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"stock",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Stocks",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item\": 7,\r\n    \"transaction_type\": \"add\",\r\n    \"quantity\": 3,\r\n    \"location\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/product/stock/25/update",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"stock",
+								"25",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product Stocks",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/transactions/2/delete",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"2",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "headerPrefix",
+				"value": "Token",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "currentdate",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

@@ -1,15 +1,16 @@
 from datetime import timezone
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 # Create your models here.
 
-User = get_user_model()
+User = settings.AUTH_USER_MODEL
 
 # 1. Supplier Model
 class Supplier(models.Model):
-    user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=100)
     contact_email = models.EmailField()
     contact_phone = models.CharField(max_length=15)
@@ -41,43 +42,75 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
+class Customer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=300, null=True, blank=True)
+    phone = models.CharField(max_length=20,null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
 
-# 3. InventoryItem Model
-class InventoryItem(models.Model):
+    def __str__(self):
+        return self.user.username
+    
+# 3. Product Model
+class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name="items")
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=0)
     reorder_level = models.PositiveIntegerField(default=10)
     price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
-    location = models.ForeignKey('InventoryLocation', on_delete=models.SET_NULL, null=True, blank=True)
+    location = models.ForeignKey('ProductLocation', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
-        verbose_name = _("Inventory Item")
-        verbose_name_plural = _("Inventory Items")
+        verbose_name = _("Product Item")
+        verbose_name_plural = _("Product Items")
 
     def __str__(self):
         return self.name
 
     def is_below_reorder_level(self):
         return self.quantity < self.reorder_level
+
+
+class Cart(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, through='CartItem')
+
+    def __str__(self):
+        return f"Cart ({self.customer.user.username})"
     
 
-class OrderItem(models.Model):
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name="order_items")
-    inventory_item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE, related_name="order_items")
-    quantity = models.PositiveIntegerField()
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name} ({self.quantity})"
+
+
+class Status(models.TextChoices):
+    PENDING = "pending", "Pending"
+    COMPLETED = "completed", "Completed"
+    CANCELLED = "cancelled", "Cancelled"
+    RECEIVED = "received", "Received"
+
+
+
+class Order(models.Model):
+    customer = models.ForeignKey("Customer", on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
     received_date = models.DateTimeField(null=True, blank=True)
     status = models.CharField(
         max_length=20,
-        choices=[
-            ("ordered", "Ordered"),
-            ("received", "Received"),
-            ("cancelled", "Cancelled")
-        ],
-        default="ordered"
+        choices=Status.choices,
+        default=Status.PENDING,
+        db_index=True
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = _("Order Item")
@@ -85,18 +118,29 @@ class OrderItem(models.Model):
         ordering = ['-order_date']
 
     def __str__(self):
-        return f"{self.inventory_item.name} ({self.quantity}) - {self.status}"
+        return f"{self.customer.name} - {self.status}"
+    
+
+    
 
 
-
-class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders")
-    items = models.ManyToManyField(OrderItem, related_name='orders')
-    product_record = models.TextField(null=True, blank=True, help_text="Record of the ordered products and quantities.")
-    ordered = models.BooleanField(default=False)
-    ordered_date = models.DateTimeField(null=True, blank=True)
+class OrderItem(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders"
+    )
+    product = models.ForeignKey("Product", on_delete=models.CASCADE,  null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items",  null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product} in {self.order}"
+
+    def clean(self):
+        if self.quantity <= 0:
+            raise ValidationError("Quantity must be greater than zero.")
 
     class Meta:
         verbose_name = _("Order")
@@ -105,13 +149,13 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id} by {self.user}"
-
+    
 
     def total_quantity(self):
         return sum(item.quantity for item in self.items.all())
 
     def total_cost(self):
-        return sum(item.quantity * item.inventory_item.price_per_unit for item in self.items.all())
+        return sum(item.quantity * item.Product_item.price_per_unit for item in self.items.all())
 
     def mark_as_ordered(self):
         self.ordered = True
@@ -119,8 +163,8 @@ class Order(models.Model):
         self.save()
 
 
-# 4. InventoryLocation Model
-class InventoryLocation(models.Model):
+# 4. ProductLocation Model
+class ProductLocation(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
     
@@ -132,7 +176,7 @@ class InventoryLocation(models.Model):
 
 # 7. ExpiryTracking Model
 class ExpiryTracking(models.Model):
-    item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE, related_name="expiry_tracking")
+    item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="expiry_tracking")
     expiration_date = models.DateField()
     quantity = models.PositiveIntegerField()
 
@@ -145,19 +189,30 @@ class ExpiryTracking(models.Model):
 
 
 # Create your models here.
-class InventoryTransaction(models.Model):
-    TRANSACTION_TYPE_CHOICES = [
-        ("add", "Add Stock"),
-        ("remove", "Remove Stock"),
-        ("transfer", "Transfer Stock"),
-    ]
-    
-    item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE, related_name="transactions")
-    transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPE_CHOICES)
-    quantity = models.PositiveIntegerField()
+
+class TRANSACTION_TYPE_CHOICES(models.TextChoices):
+    Add = "add", "Add"
+    Remove = "remove", "Remove"
+    Transfer = "transfer", "Transfer"
+
+class ProductStockAdjustment(models.Model):
+    item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="transactions")
+    transaction_type = models.CharField(
+        max_length=10, 
+        choices=TRANSACTION_TYPE_CHOICES.choices, 
+        default=TRANSACTION_TYPE_CHOICES.Add
+    )
+    quantity = models.PositiveIntegerField(default=0)  # Set a default value
     transaction_date = models.DateTimeField(auto_now_add=True)
-    location = models.ForeignKey(InventoryLocation, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Tracking who made the transaction
-    
+    location = models.ForeignKey(ProductLocation, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def clean(self):
+        if self.quantity < 0:
+            raise ValidationError('Quantity cannot be negative.')
+
     def __str__(self):
-        return f"{self.get_transaction_type_display()} - {self.item.name}"
+        return f"{self.transaction_type} {self.quantity} of {self.item.name}"
+
+    class Meta:
+        ordering = ['-transaction_date']
