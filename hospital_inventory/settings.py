@@ -28,7 +28,7 @@ DEBUG = config("DJANGO_DEBUG", cast=bool)
 
 
 
-ALLOWED_HOSTS = [".nazbeen-online-platform.onrender.com"]
+ALLOWED_HOSTS = [".inventory-management-in-hospitals.onrender.com"]
 if DEBUG:
     ALLOWED_HOSTS.append("localhost")
     ALLOWED_HOSTS.append("127.0.0.1")
