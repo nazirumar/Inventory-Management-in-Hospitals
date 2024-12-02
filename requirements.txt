@@ -33,7 +33,7 @@ psycopg-binary==3.2.3
 psycopg2==2.9.10
 psycopg2-binary==2.9.10
 pycparser==2.22
-PyJWT==2.10.0
+PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python3-openid==3.2.0
